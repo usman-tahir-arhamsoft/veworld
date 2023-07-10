@@ -20,7 +20,7 @@ const useNFTBalance = () => {
       setBalance(newBalance)
 
       //Wait until the next block before returning
-      const connex = ConnexService.getConnex()
+      const connex = await ConnexService.getConnex()
       await connex.thor.ticker().next()
       return newBalance
     } catch (e: unknown) {

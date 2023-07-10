@@ -1,4 +1,4 @@
-import { Connex } from "@vechain/connex"
+import { Connex } from "@mutopad/connex"
 
 export enum TxStage {
   NONE = "None",

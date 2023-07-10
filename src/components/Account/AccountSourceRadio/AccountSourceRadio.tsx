@@ -39,8 +39,17 @@ const AccountSourceRadio: React.FC<IAccountSourceRadio> = ({
             key={source}
             source={source}
             isSelected={isSelected}
-            isDisabled={isDisabled}
-            onClick={handleSourceClick(isDisabled, source)}
+            isDisabled={
+              sourceInfo.name.toLocaleLowerCase() === WalletSource.MUTOPAD
+                ? !window.mutopad
+                : isDisabled
+            }
+            onClick={handleSourceClick(
+              sourceInfo.name.toLocaleLowerCase() === WalletSource.MUTOPAD
+                ? !window.mutopad
+                : isDisabled,
+              source
+            )}
           />
         )
       })}

@@ -9,7 +9,7 @@ import LocalStorageService from "../service/LocalStorageService"
 import ConnexService from "../service/ConnexService"
 import { IAccount, INonFungibleToken, IToken } from "../model/State"
 
-import { Network } from "../model/enums"
+import { Network, WalletSource } from "../model/enums"
 
 export enum ActionType {
   SET_ALL = "SET_ALL",
@@ -101,10 +101,20 @@ const WalletProvider = ({ children }: IWalletProvider) => {
   useEffect(() => {
     const initialiseConnex = async () => {
       if (account?.source && network) {
-        const connex = ConnexService.initialise(account.source, network)
-        console.log("connex initialised", connex)
-        const acc = await ConnexService.getAccount(account.address)
-        console.log(acc)
+        window.mutopad?.enable().then(
+          (id) => {
+            console.log("Mutopad enabled with id " + id)
+            console.log("Creating new account Instance: ", id, account, network)
+            const connex = ConnexService.initialise(
+              account.source,
+              network,
+              account.source === WalletSource.MUTOPAD ? id : undefined
+            )
+            console.log("connex initialised at end", connex)
+          }
+          // const acc = await ConnexService.getAccount(account.address)
+          // console.log(acc)
+        )
       }
     }
     initialiseConnex()

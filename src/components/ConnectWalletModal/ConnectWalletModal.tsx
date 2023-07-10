@@ -73,16 +73,25 @@ const ConnectedWalletBody: React.FC<IConnectedWalletBody> = ({ onClose }) => {
   const [selectedSource, setSelectedSource] =
     useState<WalletSource>(DEFAULT_SOURCE)
 
-  const onSourceChange = useCallback(
-    (network: WalletSource) => setSelectedSource(network),
-    []
-  )
+  const onSourceChange = useCallback((network: WalletSource) => {
+    dispatch({ type: ActionType.CLEAR })
+    setSelectedSource(network)
+  }, [])
 
   const connectHandler = useCallback(async () => {
     try {
       setConnectionError("")
       setConnectionLoading(true)
-      const cert = await connectToWalletHandler(selectedSource, selectedNetwork)
+      const id =
+        selectedSource === WalletSource.MUTOPAD
+          ? await window.mutopad?.enable()
+          : undefined
+      const cert = await connectToWalletHandler(
+        selectedSource,
+        selectedNetwork,
+        id
+      )
+
       dispatch({
         type: ActionType.SET_ALL,
         payload: {

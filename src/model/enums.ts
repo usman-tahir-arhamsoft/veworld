@@ -1,6 +1,7 @@
 export enum WalletSource {
   VEWORLD = "veworld",
   SYNC2 = "sync2",
+  MUTOPAD = "mutopad",
 }
 
 const logosUrl = process.env.PUBLIC_URL + "/images/logo"
@@ -22,10 +23,16 @@ export const WalletSourceInfo: Record<WalletSource, IWalletSourceInfo> = {
     url: "https://docs.vechain.org/sync2/get-started.html",
     isAvailable: true,
   },
+  [WalletSource.MUTOPAD]: {
+    name: "Mutopad",
+    logo: `${logosUrl}/mutopad.png`,
+    url: "https://docs.vechain.org/sync2/get-started.html",
+    isAvailable: !!window.mutopad,
+  },
 }
 
-export const DEFAULT_SOURCE = window.vechain
-  ? WalletSource.VEWORLD
+export const DEFAULT_SOURCE = window.mutopad
+  ? WalletSource.MUTOPAD
   : WalletSource.SYNC2
 
 export enum Network {
